@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="Theme.Material" parent="@android:style/Theme.DeviceDefault">
+    <item name="android:colorPrimary">#8fa3ad</item>
+    <item name="android:colorPrimaryDark">#61747e</item>
+    <item name="android:colorSecondary">#90a4ae</item>
+    <!-- 
+    <item name="android:colorPrimaryLight">#bfd4df</item>
+    <item name="android:colorSecondaryLight">#c1d5e0</item>
+    <item name="android:colorSecondaryDark">#62757f</item>
+    <item name="android:colorAccent">#fafafa</item>
+    -->
+  </style>
+</resources>
