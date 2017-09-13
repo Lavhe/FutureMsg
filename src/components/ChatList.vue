@@ -37,7 +37,7 @@ import {
   QItem,
   QItemSide,
   QItemMain,
-  QItemTitle,
+  QItemTile,
   QTabs,
   QTab
 } from 'quasar'
@@ -52,7 +52,7 @@ export default {
       QItem,
       QItemSide,
       QItemMain,
-      QItemTitle,
+      QItemTile,
       QTabs,
       QTab
     },

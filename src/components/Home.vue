@@ -18,7 +18,7 @@
 
 
     <q-tabs v-model="tabCPC">
-      <q-tab name="tabContacts" icon="account_circle" slot="title" />
+      <q-tab name="tabContacts" icon="supervisor_account" slot="title" />
       <q-tab name="tabChats" icon="message" slot="title" />
       <q-tab name="tabPending" icon="timer" slot="title" />
     </q-tabs>
@@ -29,22 +29,30 @@
 
     <div slot="left">
       <q-list no-border link inset-delimiter>
-        <q-list-header>Essential Links</q-list-header>
-        <q-item @click="launch('http://quasar-framework.org')">
-          <q-item-side icon="school" />
-          <q-item-main label="Docs" sublabel="quasar-framework.org" />
+        <q-list-header>Profile</q-list-header>
+        <q-item>
+            <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
+            <q-item-main label="Uzzie" sublabel="I am good boy you know..." />
+            <q-item-side right>
+                <q-item-tile icon="mode_edit"/>
+            </q-item-side>
         </q-item>
-        <q-item @click="launch('http://forum.quasar-framework.org')">
-          <q-item-side icon="record_voice_over" />
-          <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
+        <q-list-header>Settings</q-list-header>
+        <q-item @click="">
+          <q-item-side icon="account_circle" />
+          <q-item-main label="Account" sublabel="Privacy, Security, Delete" />
         </q-item>
-        <q-item @click="launch('https://gitter.im/quasarframework/Lobby')">
-          <q-item-side icon="chat" />
-          <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
+        <q-item @click="">
+          <q-item-side icon="notifications" />
+          <q-item-main label="Notifications" sublabel="Tone, Vibrate, Light, Popup" />
         </q-item>
-        <q-item @click="launch('https://twitter.com/quasarframework')">
-          <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
+        <q-item @click="">
+          <q-item-side icon="help_outline" />
+          <q-item-main label="Help" sublabel="FAQ, Contact us, T's and C's" />
+        </q-item>
+        <q-item @click="">
+          <q-item-side icon="info_outline" />
+          <q-item-main label="About" sublabel="Version, App info" />
         </q-item>
       </q-list>
     </div>
@@ -53,7 +61,7 @@
 
 <script>
 
-import Pending from './Pending'
+import PendingMsgs from './PendingMsgs'
 import ChatList from './ChatList'
 import ContactList from './ContactList'
 import {
@@ -67,7 +75,7 @@ import {
   QItem,
   QItemSide,
   QItemMain,
-  QItemTitle,
+  QItemTile,
   QTabs,
   QTab
 } from 'quasar'
@@ -85,10 +93,11 @@ export default {
     QItem,
     QItemSide,
     QItemMain,
+    QItemTile,
     QTabs,
     QTab,
     ContactList,
-    Pending,
+    PendingMsgs,
     ChatList
   },
   data () {

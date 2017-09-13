@@ -1,6 +1,4 @@
-<style lang="stylus" scoped>
-
-
+<style scoped>
 
 </style>
 
@@ -8,7 +6,7 @@
 
 <div>
   <q-list highlight>
-      <q-list-header class="center">Contacts</q-list-header>
+      <q-list-header class="center">Pending</q-list-header>
       <q-item>
           <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
           <q-item-main label="John Doe" />
@@ -30,13 +28,13 @@ import {
   QItem,
   QItemSide,
   QItemMain,
-  QTabs,
   QItemTile,
+  QTabs,
   QTab
 } from 'quasar'
 
 export default {
-    name: 'contact',
+    name: 'pending',
     components: {
       QBtn,
       QIcon,
