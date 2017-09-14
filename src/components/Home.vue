@@ -38,19 +38,19 @@
             </q-item-side>
         </q-item>
         <q-list-header>Settings</q-list-header>
-        <q-item @click="">
+        <q-item v-ripple @click="">
           <q-item-side icon="account_circle" />
           <q-item-main label="Account" sublabel="Privacy, Security, Delete" />
         </q-item>
-        <q-item @click="">
+        <q-item v-ripple @click="">
           <q-item-side icon="notifications" />
           <q-item-main label="Notifications" sublabel="Tone, Vibrate, Light, Popup" />
         </q-item>
-        <q-item @click="">
+        <q-item v-ripple @click="">
           <q-item-side icon="help_outline" />
           <q-item-main label="Help" sublabel="FAQ, Contact us, T's and C's" />
         </q-item>
-        <q-item @click="">
+        <q-item v-ripple @click="">
           <q-item-side icon="info_outline" />
           <q-item-main label="About" sublabel="Version, App info" />
         </q-item>
@@ -77,6 +77,7 @@ import {
   QItemMain,
   QItemTile,
   QTabs,
+  Ripple,
   QTab
 } from 'quasar'
 
@@ -98,6 +99,7 @@ export default {
     QTab,
     ContactList,
     PendingMsgs,
+    Ripple,
     ChatList
   },
   data () {
