@@ -1,3 +1,4 @@
+/* eslint-disable */
 <style lang="stylus" scoped>
 
 
@@ -7,15 +8,13 @@
 <template>
 
 <div>
-
   <q-list highlight>
       <q-list-header class="center">Contacts</q-list-header>
-      <q-pull-to-refresh pull-message="" :handler="refreshContacts">
-
-      </q-pull-to-refresh>
       <q-item v-for="n in 10" slot="title" icon="view_quilt" to="/chat">
+        <q-btn v-on:click="router.push({name:'chat',params:{sender:'user ' +n,receiver:'Me'}})">
+        </q-btn>
           <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-          <q-item-main label="John Doe" />
+          <q-item-main :label="'Sender ' + n" />
       </q-item>
   </q-list>
 </div>
@@ -56,7 +55,9 @@ export default {
     },
     data(){
       return{
-        msg: 'sac'
+        msg: 'sac',
+        sender:'that',
+        receiver:'Jesefa'
       }
     },
     methods: {

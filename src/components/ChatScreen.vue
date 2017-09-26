@@ -1,3 +1,4 @@
+/* eslint-disable */
 <style lang="stylus">
 
 </style>
@@ -6,7 +7,7 @@
 
 <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
     <q-toolbar slot="header" class="glossy">
-        <q-btn flat to="/">
+        <q-btn flat to="home">
           <q-icon name="keyboard_arrow_left"/>
         </q-btn>
         <q-btn flat @click="$refs.layout.toggleLeft()">
@@ -19,14 +20,16 @@
         </q-toolbar-title>
 
         <q-btn flat>
-          <q-icon avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg"/>
+          <q-icon avatar="https://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg"/>
         </q-btn>
         <q-btn flat>
-          <q-icon name="timer" />
+          <q-icon name="timer">
+            <q-tooltip>Pending Msgs</q-tooltip>
+          </q-icon>
         </q-btn>
     </q-toolbar>
 
-    <chat-panel Sender="Cindy" Receiver="Me"></chat-panel>
+    <chat-panel :Sender="Sender" :Receiver="Receiver"></chat-panel>
 
     <div slot="left">
         <q-list no-border link inset-delimiter>
@@ -62,6 +65,7 @@ import ChatPanel from './ChatPanel'
 import {
     QLayout,
     QToolbar,
+    QTooltip,
     QToolbarTitle,
     QBtn,
     QIcon,
@@ -72,7 +76,6 @@ import {
     QItemMain,
     QItemTile,
     QTabs,
-    Ripple,
     QTab
 }
 from 'quasar'
@@ -82,6 +85,7 @@ export default {
     components: {
         QLayout,
         QToolbar,
+        QTooltip,
         QToolbarTitle,
         QBtn,
         QIcon,
@@ -93,19 +97,21 @@ export default {
         QItemTile,
         QTabs,
         QTab,
-        ChatPanel,
-        Ripple
+        ChatPanel
     },
     data() {
         return {
-
+            Sender:'',
+            Receiver:''
         }
     },
+    props: [''],
     methods: {
 
     },
     mounted() {
-
+      this.Sender = $route.params.sender;
+      this.Receiver =$route.params.receiver;
     }
 }
 

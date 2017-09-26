@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -21,8 +22,8 @@ export default new VueRouter({
    * build publicPath back to '' so Cordova builds work again.
    */
   routes: [
-    { path: '/', component: load('Home') },
-    { path: '/chat', component: load('ChatScreen') },
+    { name: 'home', path: '/', component: load('Home') },
+    { name: 'chat', path: '/chat', component: load('ChatScreen') },
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
   ]

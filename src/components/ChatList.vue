@@ -1,3 +1,4 @@
+/* eslint-disable */
 <style lang="stylus" scoped>
 
 </style>

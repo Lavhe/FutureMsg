@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="error-page window-height window-width bg-light column items-center no-wrap">
     <div class="error-code bg-primary flex items-center justify-center">

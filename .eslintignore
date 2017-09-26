@@ -1,3 +1,6 @@
 build/*.js
 config/*.js
 dist/*.js
+src/components/*.vue
+src/*.js
+src/App.vue
