@@ -7,15 +7,7 @@ var Msg = require('../models/Msg');
 router.get('/', function(req, res, next) {
   Fruit.find({}).select('name value -_id').sort({'value': -1}).limit(5).exec(function (err, fruits) {
     if (err) console.error("Cant find values of DB");
-    // chart JSON data
-    var json = {
-      chart: {
-        type: "pie",
-        title: 'Top 5 Fruits',
-        data: fruits,
-        container: "container"
-      }
-    };
+
     res.json(fruits);
   });
 });
@@ -27,6 +19,27 @@ router.get('/add',function(req,res,next){
 
     res.json(msgs);
   });
+
+  var UserSchema = mongoose.Schema({
+      Name:String,
+      Numbers: String,
+      isUser:Number,
+      JoinDateTime: Date
+  });
+
+  var MsgSchema = mongoose.Schema({
+      Sender:UserSchema,
+      Receiver:UserSchema,
+      Title:String,
+      Msg: String,
+      MsgType:Number,
+      SentDateTime: Date,
+      ReadDateTime: Date,
+      DueDateTime:Date,
+      DeliveryStatus: String,
+      ReadStatus:String
+  });
+
 });
 
 router.get('/chats', function(req, res, next) {

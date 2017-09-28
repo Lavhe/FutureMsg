@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost/futureMsgDB');
 mongoose.connection.on('error', console.error.bind(console, 'Connection error:'));
 
 var routes = require('./routes/index');
+var ContactRoutes = require('./routes/contacts');
 
 var app = express();
 
@@ -25,6 +26,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/', routes);
 app.use('/add', routes);
 app.use('/chats', routes);
+
+
+app.use('/contacts/getAll', ContactRoutes);
 
 
 // catch 404 and forward to error handler
