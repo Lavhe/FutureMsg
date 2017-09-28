@@ -63,6 +63,16 @@ export default {
   methods:{
     SendMessage:function(){
 
+        // GET /someUrl
+        this.$http.get('/api/chats').then(response => {
+
+          console.warn("Inside the vue resource");
+          console.log(response.body);
+
+        }, response => {
+          console.error(response);
+        });
+
       if(this.chats.length && this.chats[this.chats.length - 1].isSent){
         this.chats[this.chats.length - 1].Msgs.push(this.TxtMessage);
         this.chats.push({
