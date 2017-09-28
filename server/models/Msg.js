@@ -1,15 +1,8 @@
 var mongoose = require('mongoose');
 
-var UserSchema = mongoose.Schema({
-    Name:String,
-    Numbers: String,
-    isUser:Number,
-    JoinDateTime: Date
-});
-
 var MsgSchema = mongoose.Schema({
-    Sender:UserSchema,
-    Receiver:UserSchema,
+    SenderID:String,
+    ReceiverID:String,
     Title:String,
     Msg: String,
     MsgType:Number,
@@ -21,4 +14,3 @@ var MsgSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model("Msg", MsgSchema);
-module.exports = mongoose.model("User", UserSchema);

@@ -32,22 +32,28 @@
 </template>
 
 <script>
+
 import {
   QChatMessage,
   QInput,
+  Toast,
   QBtn,
   QIcon
 } from 'quasar'
+
 export default {
   name: "chatPanel",
   components: {
     QChatMessage,
     QInput,
+    Toast,
     QBtn,
     QIcon
   },
   data() {
     return {
+      userID:'',
+      receiverID:'',
       TxtMessage : '',
       ReceiverMsgs:['I need cash','Staff'],
       SenderMsgs:['You mean mine??'],
@@ -62,42 +68,47 @@ export default {
   },
   methods:{
     SendMessage:function(){
-
         // GET /someUrl
-        this.$http.get('/api/chats').then(response => {
+        var self = this;
+        console.warn(self.userID);
 
-          console.warn("Inside the vue resource");
-          console.log(response.body);
+        this.$http.post('/api/sendText', {msg: self.TxtMessage ,senderID: self.userID,receiverID:self.receiverID }).then(response => {
+          var answer = response.body;
+          console.log(answer);
+          Toast.create(answer);
 
+          if(self.chats.length && self.chats[self.chats.length - 1].isSent){
+            self.chats[self.chats.length - 1].Msgs.push(self.TxtMessage);
+            self.chats.push({
+              avatar:'statics/FutureMsg_Icon.png',
+              isSent:true,
+              Msgs:[self.TxtMessage],
+              name:self.Receiver,
+              stamp:'14 minutes ago'
+            });
+          }else{
+            self.chats.push({
+                avatar:'statics/FutureMsg_Icon.png',
+                isSent:self,
+                Msgs:[self.TxtMessage],
+                name:self.Receiver,
+                stamp:'14 minutes ago'
+            });
+          }
+
+        this.TxtMessage = "";
         }, response => {
           console.error(response);
         });
 
-      if(this.chats.length && this.chats[this.chats.length - 1].isSent){
-        this.chats[this.chats.length - 1].Msgs.push(this.TxtMessage);
-        this.chats.push({
-          avatar:'statics/FutureMsg_Icon.png',
-          isSent:true,
-          Msgs:[this.TxtMessage],
-          name:this.Receiver,
-          stamp:'14 minutes ago'
-        });
-      }else{
-        this.chats.push({
-            avatar:'statics/FutureMsg_Icon.png',
-            isSent:true,
-            Msgs:[this.TxtMessage],
-            name:self.Receiver,
-            stamp:'14 minutes ago'
-      });
-      }
-
       //SCroll to bottom
       document.getElementById("TheChat").scrollTop = document.getElementById("TheChat").scrollHeight;
-      this.TxtMessage = "";
     }
   },
   mounted:function(){
+          this.receiverID = "59cd7fc5d2cb8f3ed95c81fb";
+          this.userID = "59cd7f956fbd393e6f8bc28a";
+
           var self = this;
           setInterval(function(){
           self.chats.push({

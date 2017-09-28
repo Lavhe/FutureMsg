@@ -1,62 +1,89 @@
 var express = require('express');
 var router = express.Router();
-var Fruit = require('../models/Fruit.js');
+var User = require('../models/User');
 var Msg = require('../models/Msg');
 
 /* GET page. */
 router.get('/', function(req, res, next) {
-  Fruit.find({}).select('name value -_id').sort({'value': -1}).limit(5).exec(function (err, fruits) {
-    if (err) console.error("Cant find values of DB");
-
-    res.json(fruits);
+  Msg.find({}).exec(function (err, msgs) {
+    if (err){
+      res.json({"error":"Cant find MSGS of DB"});
+    }else{
+      res.json(msgs);
+    }
   });
 });
 
-router.get('/add',function(req,res,next){
+router.post('/sendText',function(req,res,next){
+  var msg = req.body.msg;
+  var senderID = req.body.senderID;
+  var receiverID = req.body.receiverID;
 
-  Msg.find({}).select('text').sort({'text': -1}).limit(5).exec(function (err, msgs) {
-    if (err) console.error("Cant find values of DB");
+  User.find({
+    "_id" :{
+      $in : [senderID,receiverID]
+    }}).limit(2).exec(function (err, users) {
 
-    res.json(msgs);
+    if (err || users.length != 2){
+      if(err) res.json({"error":err});
+      else res.json({"error":"The Receiver can not be found."});
+    }else{
+
+      var answer = new Msg({
+        Sender:senderID,
+        Receiver:receiverID,
+        Title:"",
+        Msg: msg,
+        MsgType:0,
+        SentDateTime: Date.now(),
+        ReadDateTime:null,
+        DueDateTime:null,
+        DeliveryStatus: "sent",
+        ReadStatus:"received"
+      });
+
+      answer.save(function(err) {
+        if (err){
+          res.json({"error":err});
+        }else{
+          res.json({"answer":"Message sent successfully!"});
+        }
+      });
+
+    }
+  });
+});
+
+
+/* Contact routes*/
+
+router.get('/contacts/getAll', function(req, res, next) {
+  User.find({}).exec(function (err, users) {
+    if (err){
+      res.json({"error":err});
+    }else{
+      res.json(users);
+    }
+  });
+});
+
+router.get('/contacts/CreateContact',function(req,res,next){
+  var user = new User({
+      Name:req.name,
+      Numbers: req.number,
+      isUser:false,
+      JoinDateTime: Date.now()
   });
 
-  var UserSchema = mongoose.Schema({
-      Name:String,
-      Numbers: String,
-      isUser:Number,
-      JoinDateTime: Date
-  });
-
-  var MsgSchema = mongoose.Schema({
-      Sender:UserSchema,
-      Receiver:UserSchema,
-      Title:String,
-      Msg: String,
-      MsgType:Number,
-      SentDateTime: Date,
-      ReadDateTime: Date,
-      DueDateTime:Date,
-      DeliveryStatus: String,
-      ReadStatus:String
+  user.save(function(err) {
+    if (err){
+      res.json({"error":err});
+    }else{
+      res.json({"answer":"User saved!"});
+    }
   });
 
 });
 
-router.get('/chats', function(req, res, next) {
-  console.log("Adding ");
-
-  var answer = new Msg({
-    "text":"Food is Munandiiiiii",
-    "date":Date.now()
-  });
-
-  answer.save(function(err) {
-    if (err) throw err;
-
-    console.log('User saved successfully!');
-
-    res.json({"name":"joe"});
-  });
-});
 
 module.exports = router;
