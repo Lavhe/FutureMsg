@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://localhost/anychart_db');
+mongoose.connect('mongodb://localhost/futureMsgDB');
 mongoose.connection.on('error', console.error.bind(console, 'Connection error:'));
 
 var routes = require('./routes/index');
@@ -23,7 +23,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.use('/', routes);
+app.use('/add', routes);
 app.use('/chats', routes);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
