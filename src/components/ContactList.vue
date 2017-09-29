@@ -7,7 +7,7 @@
 
 <div>
   <q-list highlight>
-      <q-list-header class="center">Contacts</q-list-header>
+      <q-list-header class="center text-center">Contacts</q-list-header>
       <q-item v-for="n in 10" slot="title" icon="view_quilt" to="/chat">
         <q-btn v-on:click="router.push({name:'chat',params:{sender:'user ' +n,receiver:'Me'}})">
         </q-btn>

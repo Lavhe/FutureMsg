@@ -25,8 +25,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/', routes);
 app.use('/add', routes);
 app.use('/chats', routes);
-app.use('/contacts/getAll', routes);
 
+//Contact routes
+app.use('/contacts/getAll', routes);
 app.use('/contacts/CreateContact', routes);
 
 

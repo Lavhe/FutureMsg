@@ -30,8 +30,8 @@ router.post('/sendText',function(req,res,next){
     }else{
 
       var answer = new Msg({
-        Sender:senderID,
-        Receiver:receiverID,
+        SenderID: senderID,
+        ReceiverID: receiverID,
         Title:"",
         Msg: msg,
         MsgType:0,

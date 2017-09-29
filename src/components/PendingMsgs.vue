@@ -12,10 +12,10 @@
     </q-pull-to-refresh>
 -->
     <q-list highlight>
-      <q-list-header class="center">Pending</q-list-header>
+      <q-list-header class="center text-center">Pending</q-list-header>
       <q-item>
         <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-        <q-item-main label="John Doe" />
+        <q-item-main label="John Doe" sublabel="10 minutes left" />
         <q-item-side right>
           <q-item-tile icon="chat_bubble" color="green" />
         </q-item-side>

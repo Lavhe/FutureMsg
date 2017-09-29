@@ -6,17 +6,17 @@
 
   <div>
     <q-list highlight>
-      <q-list-header class="center">Chats</q-list-header>
+      <q-list-header class="center text-center">Chats</q-list-header>
       <q-item>
         <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-        <q-item-main label="John Doe" />
+        <q-item-main label="John Doe" sublabel="This thing was the best man" />
         <q-item-side right>
           <q-item-tile icon="chat_bubble" color="green" />
         </q-item-side>
       </q-item>
       <q-item>
         <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-        <q-item-main label="John Doe" />
+        <q-item-main label="Mpho Doe" sublabel="I do not miss you"/>
         <q-item-side right>
           <q-item-tile icon="chat_bubble" color="blue" />
         </q-item-side>
