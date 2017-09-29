@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
 var Msg = require('../models/Msg');
+var Chat = require('../models/ChatList');
 
 /* GET page. */
 router.get('/', function(req, res, next) {
@@ -10,6 +11,17 @@ router.get('/', function(req, res, next) {
       res.json({"error":"Cant find MSGS of DB"});
     }else{
       res.json(msgs);
+    }
+  });
+});
+
+router.post('/getChats',function(req,res,next){
+  var senderID = req.body.senderID;
+  ChatList.find({}).exec(function (err, chats) {
+    if (err){
+      res.json({"error":"Cant find chats of DB"});
+    }else{
+      res.json(chats);
     }
   });
 });
@@ -46,7 +58,13 @@ router.post('/sendText',function(req,res,next){
         if (err){
           res.json({"error":err});
         }else{
-          res.json({"answer":"Message sent successfully!"});
+          Msg.find({}).exec(function (err, msgs) {
+            if (err){
+              res.json({"error":"Cant find MSGS of DB"});
+            }else{
+              res.json(msgs);
+            }
+          });
         }
       });
 

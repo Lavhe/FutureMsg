@@ -26,6 +26,9 @@ app.use('/', routes);
 app.use('/add', routes);
 app.use('/chats', routes);
 
+//Chat routes
+app.use('/getChats', routes);
+
 //Contact routes
 app.use('/contacts/getAll', routes);
 app.use('/contacts/CreateContact', routes);
