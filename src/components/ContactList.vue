@@ -8,11 +8,9 @@
 <div>
   <q-list highlight>
       <q-list-header class="center text-center">Contacts</q-list-header>
-      <q-item v-for="n in 10" slot="title" icon="view_quilt" to="/chat">
-        <q-btn v-on:click="router.push({name:'chat',params:{sender:'user ' +n,receiver:'Me'}})">
-        </q-btn>
-          <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-          <q-item-main :label="'Sender ' + n" />
+      <q-item v-for="contact in contacts" slot="title" icon="view_quilt" to="/chat">
+          <q-item-side :avatar="contact.Avatar" />
+          <q-item-main :label="contact.Name" />
       </q-item>
   </q-list>
 </div>
@@ -21,6 +19,7 @@
 
 <script>
 import {
+  Cookies,
   QBtn,
   QIcon,
   QPullToRefresh,
@@ -38,6 +37,7 @@ import {
 export default {
     name: 'contact',
     components: {
+      Cookies,
       QBtn,
       QIcon,
       Toast,
@@ -54,15 +54,28 @@ export default {
     data(){
       return{
         msg: 'sac',
+        contacts:[],
         sender:'that',
         receiver:'Jesefa'
       }
     },
     methods: {
       refreshContacts(done) {
+        this.readAllContacts();
         Toast.create("Contacts refreshed");
         done();
+      },
+      readAllContacts(){
+        var self = this;
+        this.$http.get('/api/contacts/getAll').then(response => {
+          self.contacts = response.data;
+        });
       }
+    },
+    mounted() {
+      //do something after mounting vue instance
+      if(!self.contacts)
+        this.readAllContacts();
     }
 }
 

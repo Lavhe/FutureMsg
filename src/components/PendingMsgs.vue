@@ -13,13 +13,21 @@
 -->
     <q-list highlight>
       <q-list-header class="center text-center">Pending</q-list-header>
-      <q-item>
-        <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-        <q-item-main label="John Doe" sublabel="10 minutes left" />
-        <q-item-side right>
-          <q-item-tile icon="chat_bubble" color="green" />
-        </q-item-side>
-      </q-item>
+          <q-item multiline v-for="a in 10" :class="{'bg-light text-bold':a % 2}">
+               <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
+               <q-item-main>
+                 <q-item-tile label lines="1">
+                   Uzzie Sirwali {{ a }}
+                 </q-item-tile>
+                 <q-item-tile sublabel lines="2">
+                   <span>John Doe - You have to know this.</span> I'll be back
+                 </q-item-tile>
+               </q-item-main>
+               <q-item-side right>
+                 <q-item-tile stamp>3{{a}} minutes left</q-item-tile>
+                 <q-item-tile :icon="a % 2 ? 'mail' : 'drafts'" :color="a % 2 ? 'primary' : 'secondary'" />
+               </q-item-side>
+             </q-item>
     </q-list>
   </div>
 

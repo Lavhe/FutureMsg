@@ -7,18 +7,11 @@
   <div>
     <q-list highlight>
       <q-list-header class="center text-center">Chats</q-list-header>
-      <q-item>
+      <q-item :class="{'bg-light':a % 2}" v-for="a in 10">
         <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-        <q-item-main label="John Doe" sublabel="This thing was the best man" />
+        <q-item-main :label="'Mpho Doe ' + a" sublabel="I do not miss you"/>
         <q-item-side right>
-          <q-item-tile icon="chat_bubble" color="green" />
-        </q-item-side>
-      </q-item>
-      <q-item>
-        <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-        <q-item-main label="Mpho Doe" sublabel="I do not miss you"/>
-        <q-item-side right>
-          <q-item-tile icon="chat_bubble" color="blue" />
+          <q-item-tile :icon="a % 2 ? 'mail' : 'drafts'" :color="a % 2 ? 'primary' : 'secondary'" />
         </q-item-side>
       </q-item>
     </q-list>

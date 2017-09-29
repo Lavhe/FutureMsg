@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var UserSchema = mongoose.Schema({
+    Avator:String,
     Name:String,
     Numbers: String,
     isUser:Number,

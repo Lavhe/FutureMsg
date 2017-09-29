@@ -76,8 +76,12 @@ router.post('/sendText',function(req,res,next){
 /* Contact routes*/
 
 router.get('/contacts/getAll', function(req, res, next) {
-  User.find({}).exec(function (err, users) {
-    if (err){
+  //var userID = req.body.userID;
+  //TODO : Go to this guy's phone book and take contacts
+  res.json({"debug":"Working .... ..."});
+      console.warn("I am warning you....");
+  User.find().exec(function (err, users) {
+  if (err){
       res.json({"error":err});
     }else{
       res.json(users);
