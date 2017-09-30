@@ -69,10 +69,9 @@
   </q-fixed-position>
 
   <q-modal ref="layoutModal" maximized
-  @open="notify('open')"
-  @escape-key="notify('escape-key')"
-  @close="notify('close')"
-  >
+    @open="notify('open')"
+    @escape-key="notify('escape-key')"
+    @close="notify('close')">
   <q-modal-layout>
     <q-toolbar slot="header">
       <q-btn flat @click="$refs.layoutModal.close()">
@@ -84,32 +83,78 @@
     </q-toolbar>
     <q-toolbar class="transparent" slot="footer">
       <div class="q-toolbar-title text-center">
-        <q-btn flat class="text-center v-ripple center" color="secondary" >Set Msg</q-btn>
+        <q-btn flat class="text-center v-ripple center fit" color="secondary" >Set Msg</q-btn>
       </div>
     </q-toolbar>
     <q-card class="shadow-0">
       <q-card-main>
-          <q-select
-             v-model="msgTo"
-             float-label="Send to : "
-             radio
-             :options="[{label:'joe',value:0},{label:'uzzie',value:1},{label:'them',value:3}]"
-          />
+        <q-select
+        v-model="msgTo"
+        float-label="Send to : "
+        radio
+        :options="[{label:'joe',value:0},{label:'uzzie',value:1},{label:'them',value:3}]"
+        />
       </q-card-main>
       <q-card-main class="card">
-        <q-input type="text" v-model="msgTitle" float-label="Msg Title" />
+        <q-input
+        type="text"
+        v-model="msgTitle"
+        float-label="Msg Title"
+        :after="[
+                  {
+                    icon: 'help_outline',
+                    content: false,
+                    handler:showMsgTitleInfo
+                  }
+                ]"
+       />
       </q-card-main>
       <q-card-main class="card">
-        <q-input v-model="msgText" type="textarea" float-label="Msg" />
+        <q-input
+        v-model="msgText"
+        type="textarea"
+        float-label="Msg"
+        :after="[
+                  {
+                    icon: 'help_outline',
+                    content: false,
+                    handler:showMsgInfo
+                  }
+                ]"
+       />
       </q-card-main>
       <q-card-main>
-        <q-datetime
-        :display-value="msgDateTime ? msgDateTime : 'Please Pick a valid date'"
-        type="datetime"
-        v-model="msgDateTime"
-        :min="new Date()"
-        stack-label="Choose a due date and time"
-        format24h />
+        <div class="row">
+          <div class="col-12">
+            <span class="text-center">When to send the Msg?</span>
+          </div>
+          <div class="col-6">
+            <q-datetime
+            placeholder="Pick a valid date"
+            type="date"
+            v-model="msgDate"
+            :error="!msgDate"
+            :min="new Date()"
+            v-on:change="updateDateTimeLeft"
+            stack-label="Choose a due date"
+            />
+          </div>
+          <div class="col-6">
+            <q-datetime
+            placeholder="Pick a valid time"
+            type="time"
+            v-on:change="updateDateTimeLeft"
+            :error="!msgTime"
+            v-model="msgTime"
+            stack-label="Choose a due time"
+            />
+          </div>
+        </div>
+      </q-card-main>
+      <q-card-main>
+        <div class="text-center">
+          {{msgDateTimeLeft}}
+        </div>
       </q-card-main>
 
     </q-card>
@@ -156,7 +201,9 @@ import ContactList from './ContactList'
 import {
   Cookies,
   QLayout,
+  Toast,
   QCard,
+  QLabel,
   QCardTitle,
   QCardMain,
   QCardSeparator,
@@ -189,8 +236,10 @@ export default {
   name: 'Home',
   components: {
     Cookies,
+    Toast,
     QLayout,
     QCard,
+    QLabel,
     QCardTitle,
     QCardMain,
     QCardSeparator,
@@ -222,17 +271,38 @@ export default {
   },
   data() {
     return {
-      msgDateTime:null,
+      msgDate:new Date(),
+      msgTime:new Date(),
       msgTo:'',
       msgTitle:'',
       msgText:'',
+      msgDateTimeLeft:'',
       tabCPC: 'tabChats',
       OnSearchPanel:false,
       txtSearch:''
     }
   },
   methods: {
-
+      showMsgInfo(){
+          Toast.create({html:"The actual Msg, Receiver will read this only after the due date",timeout: 6000});
+      },
+      showMsgTitleInfo(){
+          Toast.create({html:"The title of your Msg, Receiver will see this before the due date",timeout: 6000});
+      },
+      updateDateTimeLeft(){
+        Toast.create("Updating datetime left....");
+        if(!this.msgDate){
+              this.msgDateTimeLeft = "Choose a valid date";
+        }else{
+            if(!this.msgTime){
+              this.msgDateTimeLeft = "Choose a valid time";
+            }else{
+              Toast.create("Updating ....");
+              this.msgDate.setHours(this.msgTime.getHours(),this.msgTime.getMinutes(),0);
+              this.msgDateTimeLeft = "Message will be sent after : " +  this.msgDate;
+            }
+        }
+      }
   },
   mounted() {
     var value = Cookies.get('userID');

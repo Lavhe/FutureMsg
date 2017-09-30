@@ -10,14 +10,49 @@ router.get('/', function(req, res, next) {
     if (err){
       res.json({"error":"Cant find MSGS of DB"});
     }else{
-      res.json(msgs);
+      User.find({}).exec(function(err,users){
+        if (err){
+          res.json({"error":"Cant find Users of DB"});
+        }else{
+          Chat.find({}).exec(function(err,chats){
+            if (err){
+              res.json({"error":"Cant find Chats of DB"});
+            }else{
+              res.json({"msgs":msgs,"users":users,"chats":chats});
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+router.get('/addChats',function(req,res,next){
+  console.warn("We are in");
+  var _chat = new Chat({
+    SenderID:"yutytzsdzfxyyguio",
+    Receiver:{
+      Name:"The best"
+    },
+    LastMsg:{
+      Msg:"This is a test message",
+      PostedDateTime:Date.now()
+    },
+    Read:true
+  });
+
+  _chat.save(function(err){
+    if (err){
+      res.json({"error":err});
+    }else{
+      res.json({"answer":"Added the chatList"});
     }
   });
 });
 
 router.post('/getChats',function(req,res,next){
-  var senderID = req.body.senderID;
-  ChatList.find({}).exec(function (err, chats) {
+  //var senderID = req.body.senderID;
+  Chat.find({}).exec(function (err, chats) {
     if (err){
       res.json({"error":"Cant find chats of DB"});
     }else{
@@ -36,76 +71,76 @@ router.post('/sendText',function(req,res,next){
       $in : [senderID,receiverID]
     }}).limit(2).exec(function (err, users) {
 
-    if (err || users.length != 2){
-      if(err) res.json({"error":err});
-      else res.json({"error":"The Receiver can not be found."});
-    }else{
+      if (err || users.length != 2){
+        if(err) res.json({"error":err});
+        else res.json({"error":"The Receiver can not be found."});
+      }else{
 
-      var answer = new Msg({
-        SenderID: senderID,
-        ReceiverID: receiverID,
-        Title:"",
-        Msg: msg,
-        MsgType:0,
-        SentDateTime: Date.now(),
-        ReadDateTime:null,
-        DueDateTime:null,
-        DeliveryStatus: "sent",
-        ReadStatus:"received"
-      });
+        var answer = new Msg({
+          SenderID: senderID,
+          ReceiverID: receiverID,
+          Title:"",
+          Msg: msg,
+          MsgType:0,
+          SentDateTime: Date.now(),
+          ReadDateTime:null,
+          DueDateTime:null,
+          DeliveryStatus: "sent",
+          ReadStatus:"received"
+        });
 
-      answer.save(function(err) {
-        if (err){
-          res.json({"error":err});
-        }else{
-          Msg.find({}).exec(function (err, msgs) {
-            if (err){
-              res.json({"error":"Cant find MSGS of DB"});
-            }else{
-              res.json(msgs);
-            }
-          });
-        }
-      });
+        answer.save(function(err) {
+          if (err){
+            res.json({"error":err});
+          }else{
+            Msg.find({}).exec(function (err, msgs) {
+              if (err){
+                res.json({"error":"Cant find MSGS of DB"});
+              }else{
+                res.json(msgs);
+              }
+            });
+          }
+        });
 
-    }
+      }
+    });
   });
-});
 
 
-/* Contact routes*/
+  /* Contact routes*/
 
-router.get('/contacts/getAll', function(req, res, next) {
-  //var userID = req.body.userID;
-  //TODO : Go to this guy's phone book and take contacts
-  res.json({"debug":"Working .... ..."});
-      console.warn("I am warning you....");
-  User.find().exec(function (err, users) {
-  if (err){
-      res.json({"error":err});
-    }else{
-      res.json(users);
-    }
+  router.get('/contacts/getAll', function(req, res, next) {
+    //var userID = req.body.userID;
+    //TODO : Go to this guy's phone book and take contacts
+    console.warn("I am warning you....");
+    User.find().exec(function (err, users) {
+      if (err){
+        res.json({"error":err});
+      }else{
+        res.json(users);
+      }
+    });
   });
-});
 
-router.get('/contacts/CreateContact',function(req,res,next){
-  var user = new User({
-      Name:req.name,
-      Numbers: req.number,
+  router.get('/contacts/CreateContact',function(req,res,next){
+    console.warn(req);
+    var user = new User({
+      Name:req.query.name,
+      Numbers: req.query.number,
       isUser:false,
       JoinDateTime: Date.now()
+    });
+
+    user.save(function(err) {
+      if (err){
+        res.json({"error":err});
+      }else{
+        res.json({"answer":"User saved!"});
+      }
+    });
+
   });
 
-  user.save(function(err) {
-    if (err){
-      res.json({"error":err});
-    }else{
-      res.json({"answer":"User saved!"});
-    }
-  });
 
-});
-
-
-module.exports = router;
+  module.exports = router;
