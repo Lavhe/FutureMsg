@@ -7,7 +7,7 @@
 
 <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
     <q-toolbar slot="header" class="glossy">
-        <q-btn flat @click="">
+        <q-btn flat @click="$router.push('/')" v-go-back=" '/' " replace>
           <q-icon name="keyboard_arrow_left"/>
         </q-btn>
         <q-btn flat @click="$refs.layout.toggleLeft()">
@@ -64,6 +64,7 @@
 import ChatPanel from './ChatPanel'
 import {
     QLayout,
+    Toast,
     QToolbar,
     QTooltip,
     QToolbarTitle,
@@ -84,6 +85,7 @@ export default {
     name: 'Chat',
     components: {
         QLayout,
+        Toast,
         QToolbar,
         QTooltip,
         QToolbarTitle,
@@ -107,7 +109,6 @@ export default {
     },
     props: [''],
     methods: {
-
     },
     mounted() {
       this.Sender = $route.params.sender;
