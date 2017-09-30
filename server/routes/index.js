@@ -27,6 +27,21 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.post('/getUserID',function(req,res,next){
+    var contact = req.body.number;
+    User.find({Numbers:contact}).limit(1).exec(function (err,users) {
+      if (err || !users){
+        if(!users){
+          res.json({"error":contact + " is not found."});
+        }else{
+          res.json({"error":err});
+        }
+      }else{
+        res.json({"userID":users[0]._id});
+      }
+    });
+});
+
 router.get('/addChats',function(req,res,next){
   console.warn("We are in");
   var _chat = new Chat({

@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/', routes);
 app.use('/add', routes);
 app.use('/chats', routes);
+app.use('/getUserID',routes);
 
 //Chat routes
 app.use('/addChats', routes);
