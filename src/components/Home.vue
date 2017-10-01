@@ -54,16 +54,16 @@
       color="primary"
       icon="expand_less">
       <q-fab-action
-      color="primary"
-      @click="alert()"
-      icon="add_alarm"/>
+      color="secondary"
+      @click="attachMoney"
+      icon="attach_money"/>
       <q-fab-action
       color="secondary"
       @click="$refs.layoutModal.open()"
-      icon="timer"/>
+      icon="add_alarm"/>
       <q-fab-action
       color="secondary"
-      @click="alert()"
+      @click="$refs.layout.toggleLeft()"
       icon="settings"/>
     </q-fab>
   </q-fixed-position>
@@ -200,6 +200,7 @@ import ChatList from './ChatList'
 import ContactList from './ContactList'
 import {
   Cookies,
+  Dialog,
   QLayout,
   Toast,
   QCard,
@@ -236,6 +237,7 @@ export default {
   name: 'Home',
   components: {
     Cookies,
+    Dialog,
     Toast,
     QLayout,
     QCard,
@@ -283,6 +285,34 @@ export default {
     }
   },
   methods: {
+      attachMoney(){
+          var self = this;
+          Dialog.create({
+          title: 'Donate to us!',
+          message: `Hit us with your email address and we will contact you.`,
+          form: {
+              email: {
+                type: 'email',
+                label: 'Your email address',
+                model: ''
+              },
+          },
+          buttons: [
+              'Cancel',
+              {
+                label: 'Ok',
+                handler (data) {
+                  self.saveMail("donate",data.email)
+                }
+              }
+            ],
+          position:'top'
+        });
+        Toast.create('Help us grow');
+      },
+      saveMail(why,email){
+        console.warn(why + " .... " + email);
+      },
       showMsgInfo(){
           Toast.create({html:"The actual Msg, Receiver will read this only after the due date",timeout: 6000});
       },

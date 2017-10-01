@@ -6,11 +6,16 @@
 <template>
 
 <div>
-  <q-list highlight>
+  <q-list highlight separator>
       <q-list-header class="center text-center">Contacts</q-list-header>
       <q-item v-for="contact in contacts" slot="title" icon="view_quilt" to="/chat">
           <q-item-side :avatar="contact.Avatar" />
-          <q-item-main :label="contact.Name" />
+          <q-item-main :label="contact.Name" :sublabel="contact.Numbers" />
+          <q-item-side right slot="right">
+            <q-chip small icon="mail">
+              10
+            </q-chip>
+          </q-item-side>
       </q-item>
   </q-list>
 </div>
@@ -21,6 +26,7 @@
 import {
   Cookies,
   QBtn,
+  QChip,
   QIcon,
   QPullToRefresh,
   QList,
@@ -39,6 +45,7 @@ export default {
     components: {
       Cookies,
       QBtn,
+      QChip,
       QIcon,
       Toast,
       QList,

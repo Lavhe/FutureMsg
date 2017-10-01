@@ -11,7 +11,7 @@
 
     </q-pull-to-refresh>
 -->
-    <q-list highlight>
+    <q-list highlight inset-separator>
       <q-list-header class="center text-center">Pending</q-list-header>
           <q-item multiline v-for="a in 10" :class="{'bg-light text-bold':a % 2}">
                <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
