@@ -7,20 +7,29 @@
 
 <template lang="html">
 
-  <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
-    <q-toolbar slot="header" class="glossy">
+  <q-layout @scroll="scrollHandler" ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
+    <q-toolbar slot="header" class="">
       <q-btn flat @click="$refs.layout.toggleLeft()">
         <q-icon name="menu" />
       </q-btn>
 
       <q-toolbar-title v-show="!OnSearchPanel">
-        FutureMsg
-        <div slot="subtitle">
-          Chat in the future.
-        </div>
+
         <q-btn class="pull-right" flat v-on:click="OnSearchPanel = true">
           <q-icon name="search" />
         </q-btn>
+
+        <q-label class="text-center">FutureMsg</q-label>
+        <div v-if="scrolledPastTab" slot="subtitle">
+          <q-tabs v-model="tabCPC" slot="subtitle">
+            <q-tab name="tabContacts" icon="supervisor_account" slot="title" />
+            <q-tab name="tabChats" icon="message" slot="title" />
+            <q-tab name="tabPending" icon="timer" slot="title" />
+          </q-tabs>
+        </div>
+        <div v-if="!scrolledPastTab" slot="subtitle">
+          Chat in the future
+        </div>
       </q-toolbar-title>
 
       <q-toolbar-title v-show="OnSearchPanel">
@@ -34,7 +43,7 @@
     </q-toolbar>
 
     <div v-show="!OnSearchPanel">
-      <q-tabs v-model="tabCPC">
+      <q-tabs ref="theTab" v-model="tabCPC" slot="header">
         <q-tab name="tabContacts" icon="supervisor_account" slot="title" />
         <q-tab name="tabChats" icon="message" slot="title" />
         <q-tab name="tabPending" icon="timer" slot="title" />
@@ -47,7 +56,7 @@
     <div v-show="OnSearchPanel">
       Results ...
     </div>
-
+    {{victimHeight}}
     <q-fixed-position corner="bottom-right" :offset="[18, 18]">
       <q-fab
       direction="up"
@@ -69,9 +78,9 @@
   </q-fixed-position>
 
   <q-modal ref="layoutModal" maximized
-    @open="notify('open')"
-    @escape-key="notify('escape-key')"
-    @close="notify('close')">
+  @open="notify('open')"
+  @escape-key="notify('escape-key')"
+  @close="notify('close')">
   <q-modal-layout>
     <q-toolbar slot="header">
       <q-btn flat @click="$refs.layoutModal.close()">
@@ -101,13 +110,13 @@
         v-model="msgTitle"
         float-label="Msg Title"
         :after="[
-                  {
-                    icon: 'help_outline',
-                    content: false,
-                    handler:showMsgTitleInfo
-                  }
-                ]"
-       />
+        {
+          icon: 'help_outline',
+          content: false,
+          handler:showMsgTitleInfo
+        }
+        ]"
+        />
       </q-card-main>
       <q-card-main class="card">
         <q-input
@@ -115,13 +124,13 @@
         type="textarea"
         float-label="Msg"
         :after="[
-                  {
-                    icon: 'help_outline',
-                    content: false,
-                    handler:showMsgInfo
-                  }
-                ]"
-       />
+        {
+          icon: 'help_outline',
+          content: false,
+          handler:showMsgInfo
+        }
+        ]"
+        />
       </q-card-main>
       <q-card-main>
         <div class="row">
@@ -281,62 +290,69 @@ export default {
       msgDateTimeLeft:'',
       tabCPC: 'tabChats',
       OnSearchPanel:false,
-      txtSearch:''
+      txtSearch:'',
+      scrolledPastTab:false
     }
   },
   methods: {
-      attachMoney(){
-          var self = this;
-          Dialog.create({
-          title: 'Donate to us!',
-          message: `Hit us with your email address and we will contact you.`,
-          form: {
-              email: {
-                type: 'email',
-                label: 'Your email address',
-                model: ''
-              },
+    scrollHandler(){
+      try {
+        this.scrolledPastTab = window.scrollY > this.$refs.theTab.currentEl.clientHeight;
+      } catch (e) {}
+    },
+    attachMoney(){
+      var self = this;
+      Dialog.create({
+        title: 'Donate to us!',
+        message: `Hit us with your email address and we will contact you.`,
+        form: {
+          email: {
+            type: 'email',
+            label: 'Your email address',
+            model: ''
           },
-          buttons: [
-              'Cancel',
-              {
-                label: 'Ok',
-                handler (data) {
-                  self.saveMail("donate",data.email)
-                }
-              }
-            ],
-          position:'top'
-        });
-        Toast.create('Help us grow');
-      },
-      saveMail(why,email){
-        console.warn(why + " .... " + email);
-      },
-      showMsgInfo(){
-          Toast.create({html:"The actual Msg, Receiver will read this only after the due date",timeout: 6000});
-      },
-      showMsgTitleInfo(){
-          Toast.create({html:"The title of your Msg, Receiver will see this before the due date",timeout: 6000});
-      },
-      updateDateTimeLeft(){
-        Toast.create("Updating datetime left....");
-        if(!this.msgDate){
-              this.msgDateTimeLeft = "Choose a valid date";
-        }else{
-            if(!this.msgTime){
-              this.msgDateTimeLeft = "Choose a valid time";
-            }else{
-              Toast.create("Updating ....");
-              this.msgDate.setHours(this.msgTime.getHours(),this.msgTime.getMinutes(),0);
-              this.msgDateTimeLeft = "Message will be sent after : " +  this.msgDate;
+        },
+        buttons: [
+          'Cancel',
+          {
+            label: 'Ok',
+            handler (data) {
+              self.saveMail("donate",data.email)
             }
+          }
+        ],
+        position:'top'
+      });
+      Toast.create('Help us grow');
+    },
+    saveMail(why,email){
+      console.warn(why + " .... " + email);
+    },
+    showMsgInfo(){
+      Toast.create({html:"The actual Msg, Receiver will read this only after the due date",timeout: 6000});
+    },
+    showMsgTitleInfo(){
+      Toast.create({html:"The title of your Msg, Receiver will see this before the due date",timeout: 6000});
+    },
+    updateDateTimeLeft(){
+      Toast.create("Updating datetime left....");
+      if(!this.msgDate){
+        this.msgDateTimeLeft = "Choose a valid date";
+      }else{
+        if(!this.msgTime){
+          this.msgDateTimeLeft = "Choose a valid time";
+        }else{
+          Toast.create("Updating ....");
+          this.msgDate.setHours(this.msgTime.getHours(),this.msgTime.getMinutes(),0);
+          this.msgDateTimeLeft = "Message will be sent after : " +  this.msgDate;
         }
       }
+    }
   },
   mounted() {
     var value = Cookies.get('userID');
     console.log(value);
+
   }
 }
 
