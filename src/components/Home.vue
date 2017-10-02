@@ -56,7 +56,6 @@
     <div v-show="OnSearchPanel">
       Results ...
     </div>
-    {{victimHeight}}
     <q-fixed-position corner="bottom-right" :offset="[18, 18]">
       <q-fab
       direction="up"

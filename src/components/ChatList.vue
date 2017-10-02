@@ -6,7 +6,7 @@
 <div>
   <q-list highlight>
     <q-list-header class="center text-center">Chats</q-list-header>
-    <q-item :class="{'bg-light text-bold':chat.Read}" v-for="chat in chats">
+    <q-item :to="{ name:'chat' , params:{Receiver:chat.Receiver} }" :class="{'bg-light text-bold':chat.Read}" v-for="chat in chats">
       <q-item-side :avatar="chat.Receiver.Avatar" />
       <q-item-main :label="chat.Receiver.Name" :sublabel="chat.LastMsg.Msg" />
       <q-item-side right>

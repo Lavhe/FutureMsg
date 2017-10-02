@@ -4,6 +4,7 @@ var UserSchema = mongoose.Schema({
     Avator:String,
     Name:String,
     Numbers: String,
+    status:String,
     isUser:Number,
     JoinDateTime: Date
 });

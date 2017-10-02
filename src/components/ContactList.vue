@@ -8,7 +8,7 @@
 <div>
   <q-list highlight separator>
       <q-list-header class="center text-center">Contacts</q-list-header>
-      <q-item v-for="contact in contacts" slot="title" icon="view_quilt" to="/chat">
+      <q-item v-for="contact in contacts" slot="title" icon="view_quilt" :to="{name:'chat',params:{Receiver:contact}}">
           <q-item-side :avatar="contact.Avatar" />
           <q-item-main :label="contact.Name" :sublabel="contact.Numbers" />
           <q-item-side right slot="right">
@@ -61,9 +61,7 @@ export default {
     data(){
       return{
         msg: 'sac',
-        contacts:[],
-        sender:'that',
-        receiver:'Jesefa'
+        contacts:[]
       }
     },
     methods: {

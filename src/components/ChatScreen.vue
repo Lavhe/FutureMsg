@@ -16,11 +16,11 @@
 
         <q-toolbar-title>
             Chat
-            <div slot="subtitle">Cindy</div>
+            <div slot="subtitle">{{ Receiver.Name }}</div>
         </q-toolbar-title>
 
         <q-btn flat>
-          <q-icon avatar="https://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg"/>
+          <q-icon :avatar="Receiver.Avator"/>
         </q-btn>
         <q-btn flat>
           <q-icon name="timer">
@@ -33,11 +33,11 @@
 
     <div slot="left">
         <q-list no-border link inset-delimiter>
-            <q-item>
-                <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
-                <q-item-main label="Cindy" sublabel="I am a good girl you know..." />
+            <q-item class="bg-light">
+                <q-item-side :avatar="Receiver.Avator" />
+                <q-item-main :label="Receiver.Name" :sublabel="Receiver.status" />
                 <q-item-side right>
-                    <q-item-tile icon="mode_edit" label="30 minutes ago" />
+                    <q-btn round small outline color="blue" v-ripple icon="mode_edit" v-on:click="editProfile" />
                 </q-item-side>
             </q-item>
             <q-list-header icon="chat">Pending Messages</q-list-header>
@@ -104,15 +104,15 @@ export default {
     data() {
         return {
             Sender:'',
-            Receiver:''
         }
     },
-    props: [''],
+    props: ['Receiver'],
     methods: {
+      editProfile(){
+        Toast.create("Go to edit profile page/action");
+      }
     },
     mounted() {
-      this.Sender = $route.params.sender;
-      this.Receiver =$route.params.receiver;
     }
 }
 
