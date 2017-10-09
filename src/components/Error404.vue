@@ -6,25 +6,26 @@
     </div>
     <div>
       <div class="error-card shadow-4 bg-white column items-center justify-center no-wrap">
-        <q-icon name="error_outline" color="grey-5" />
-        <p class="caption text-center">Oops. Nothing here...</p>
-        <p class="text-center group">
+        <q-icon name="error_outline" color="red-5" />
+        <p class="caption text-center text-red">Page not found</p>
+        <p class="text-center">
           <q-btn
             v-if="canGoBack"
-            color="primary"
-            push
+            flat
             @click="goBack"
             icon="keyboard_arrow_left"
+            v-ripple
           >
             Go back
           </q-btn>
           <q-btn
-            color="primary"
-            push
-            @click="$router.replace('/')"
-            icon-right="home"
+            v-if="!canGoBack"
+            flat
+            to="home"
+            icon="home"
+            v-ripple
           >
-            Go home
+            Go Home
           </q-btn>
         </p>
       </div>

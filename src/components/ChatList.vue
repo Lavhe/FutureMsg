@@ -6,20 +6,27 @@
 <div>
   <q-list highlight>
     <q-list-header class="center text-center">Chats</q-list-header>
-    <q-item :to="{ name:'chat' , params:{Receiver:chat.Receiver} }" :class="{'bg-light text-bold':chat.Read}" v-for="chat in chats">
-      <q-item-side :avatar="chat.Receiver.Avatar" />
-      <q-item-main :label="chat.Receiver.Name" :sublabel="chat.LastMsg.Msg" />
-      <q-item-side right>
-        <q-item-tile stamp>{{ chat.LastMsg.PostedDateTime }}</q-item-tile>
-        <q-item-tile :icon="chat.Read ? 'mail' : 'drafts'" :color="chat.Read ? 'primary' : 'secondary'" />
-      </q-item-side>
-    </q-item>
+    <q-collapsible icon-toggle v-for="chat in chats" :avatar="chat.Receiver.Avatar" :label="chat.Receiver.Name">
+        <q-item :to="{ name:'chat' , params:{Receiver:chat.Receiver,MsgTitle:chat.Chat[0].Title} }" :class="{'bg-light text-bold':chat.Read}">
+          <q-item-main>
+            <q-item-tile sublabel lines="2">
+              <span v-if="chat.Title">{{ chat.LastMsg.Msg }}</span>
+            </q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile :icon="chat.Read ? 'mail' : 'drafts'" :color="chat.Read ? 'primary' : 'secondary'" />
+            <q-item-tile stamp>{{ chat.LastMsg.PostedDateTime }}</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item-separator />
+      </q-collapsible>
   </q-list>
 </div>
 </template>
 
 <script>
 import {
+  QCollapsible,
   QBtn,
   QIcon,
   QList,
@@ -36,6 +43,7 @@ from 'quasar'
 export default {
   name: 'chats',
   components: {
+    QCollapsible,
     QBtn,
     QIcon,
     QList,
@@ -56,6 +64,7 @@ export default {
     //do something after mounting vue instance
     var self = this;
     this.$http.post('/api/getChats').then(response => {
+      console.warn("We back");
       console.warn(response.data);
       self.chats = response.data;
     });

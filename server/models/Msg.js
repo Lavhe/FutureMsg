@@ -1,8 +1,14 @@
 var mongoose = require('mongoose');
 
 var MsgSchema = mongoose.Schema({
-    SenderID:String,
-    ReceiverID:String,
+    Sender:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    Receiver:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
     Title:String,
     Msg: String,
     MsgType:Number,

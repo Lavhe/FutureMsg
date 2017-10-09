@@ -73,6 +73,7 @@ export default {
       readAllContacts(){
         var self = this;
         this.$http.get('/api/contacts/getAll').then(response => {
+          console.warn(response.data);
           self.contacts = response.data;
         });
       }

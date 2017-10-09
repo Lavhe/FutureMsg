@@ -23,7 +23,15 @@ export default new VueRouter({
    */
   routes: [
     { name: 'home', path: '/', component: load('Home') },
-    { name: 'chat', path: '/chat/:Receiver', component: load('ChatScreen'),props:true},
+    { name: 'chat', path: '/chat/:Receiver', component: load('ChatScreen'),props:true,
+      beforeEnter:(to,from,next)=>{
+        if(to.params.Receiver.Name  === undefined){
+          console.warn("User is not defined!");
+        }else{
+          next();
+        }
+      }
+    },
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
   ]

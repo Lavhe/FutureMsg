@@ -13,7 +13,43 @@
 -->
     <q-list highlight inset-separator>
       <q-list-header class="center text-center">Pending</q-list-header>
-          <q-item multiline v-for="a in 10" :class="{'bg-light text-bold':a % 2}">
+
+      <q-collapsible icon-toggle avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" label="Uzzie Sirwali">
+        <q-item multiline v-for="a in 2" :class="{'bg-light text-bold':a % 2}">
+                <q-item-main>
+                   <q-item-tile sublabel v-if="a % 2 == 0" lines="2">
+                     <span>John Doe - You have to know this.</span> I'll be back
+                   </q-item-tile>
+                   <q-item-tile sublabel v-else>
+                     <span><center>No title</center></span>
+                   </q-item-tile>
+                 </q-item-main>
+                 <q-item-side right>
+                   <q-item-tile :icon="a % 2 ? 'mail' : 'drafts'" :color="a % 2 ? 'primary' : 'secondary'" />
+                   <q-item-tile stamp>3{{a}} minutes left</q-item-tile>
+                </q-item-side>
+          </q-item>
+          <q-item-separator />
+        </q-collapsible>
+        <q-collapsible icon-toggle avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" label="Mulavhe Joseph">
+          <q-item multiline v-for="a in 4" :class="{'bg-light text-bold':a % 2}">
+                  <q-item-main>
+                     <q-item-tile sublabel v-if="a % 2 == 0" lines="2">
+                       <span>You have to know Stuff ASAP.</span> I'll be back
+                     </q-item-tile>
+                     <q-item-tile sublabel v-else>
+                       <h6><center>No title</center></h6>
+                     </q-item-tile>
+                   </q-item-main>
+                   <q-item-side right>
+                     <q-item-tile :icon="a % 2 ? 'mail' : 'drafts'" :color="a % 2 ? 'primary' : 'secondary'" />
+                     <q-item-tile stamp>3{{a}} minutes left</q-item-tile>
+                  </q-item-side>
+            </q-item>
+            <q-item-separator />
+          </q-collapsible>
+
+      <q-item multiline v-for="a in 10" :class="{'bg-light text-bold':a % 2}">
                <q-item-side avatar="http://wallpaper-gallery.net/images/profile-pics/profile-pics-20.jpg" />
                <q-item-main>
                  <q-item-tile label lines="1">
@@ -27,7 +63,7 @@
                  <q-item-tile stamp>3{{a}} minutes left</q-item-tile>
                  <q-item-tile :icon="a % 2 ? 'mail' : 'drafts'" :color="a % 2 ? 'primary' : 'secondary'" />
                </q-item-side>
-             </q-item>
+      </q-item>
     </q-list>
   </div>
 
@@ -35,6 +71,7 @@
 
 <script>
 import {
+  QCollapsible,
   QBtn,
   QIcon,
   QList,
@@ -43,6 +80,7 @@ import {
   QItemSide,
   QItemMain,
   QItemTile,
+  QItemSeparator,
   QTabs,
   QTab
 } from 'quasar'
@@ -50,6 +88,7 @@ import {
 export default {
   name: 'pending',
   components: {
+    QCollapsible,
     QBtn,
     QIcon,
     QList,
@@ -58,6 +97,7 @@ export default {
     QItemSide,
     QItemMain,
     QItemTile,
+    QItemSeparator,
     QTabs,
     QTab
   },

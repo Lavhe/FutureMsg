@@ -96,6 +96,19 @@
     </q-toolbar>
     <q-card class="shadow-0">
       <q-card-main>
+        <q-carousel arrows fullscreen class="text-white">
+            <div v-for="i in 50" v-if="i % 2 === 0" slot="slide">
+              <div class="row">
+                <q-chip class="col-6" avatar="/statics/some.png" color="primary">
+                  {{ i - 1}}
+                </q-chip>
+                <q-chip class="col-6" avatar="/statics/some.png" color="primary">
+                  {{ i }}
+                </q-chip>
+              </div>
+            </div>
+        </q-carousel>
+
         <q-select
         v-model="msgTo"
         float-label="Send to : "
@@ -208,6 +221,9 @@ import ChatList from './ChatList'
 import ContactList from './ContactList'
 import {
   Cookies,
+  QChip,
+  QCarousel,
+  QChipInput,
   Dialog,
   QLayout,
   Toast,
@@ -245,6 +261,9 @@ export default {
   name: 'Home',
   components: {
     Cookies,
+    QCarousel,
+    QChip,
+    QChipInput,
     Dialog,
     Toast,
     QLayout,

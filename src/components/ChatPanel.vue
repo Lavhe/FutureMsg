@@ -52,6 +52,7 @@ export default {
   },
   data() {
     return {
+      MsgTitle:'',
       userID:'',
       receiverID:'',
       TxtMessage : '',
@@ -70,9 +71,8 @@ export default {
     SendMessage:function(){
         // GET /someUrl
         var self = this;
-        console.warn(self.userID);
 
-        this.$http.post('/api/sendText', {msg: self.TxtMessage ,senderID: self.userID,receiverID:self.receiverID }).then(response => {
+        this.$http.post('/api/sendMsg', {msgTitle:self.MsgTitle,msg: self.TxtMessage ,receiverID:self.receiverID,dueDate:null}).then(response => {
           var answer = response.body;
           console.log(answer);
           if(answer.error){
@@ -124,7 +124,7 @@ export default {
         });
       },5000);
   },
-  props: ['Sender', 'Receiver']
+  props: ['Sender', 'Receiver','MsgTitle']
 }
 
 </script>

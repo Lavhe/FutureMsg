@@ -6,7 +6,7 @@
 <template lang="html">
 
 <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
-    <q-toolbar slot="header" class="glossy">
+    <q-toolbar slot="header">
         <q-btn flat @click="$router.push('/')" v-go-back=" '/' " replace>
           <q-icon name="keyboard_arrow_left"/>
         </q-btn>
@@ -15,21 +15,20 @@
         </q-btn>
 
         <q-toolbar-title>
-            Chat
-            <div slot="subtitle">{{ Receiver.Name }}</div>
+          {{ Receiver.Name }}
+            <div slot="subtitle">Chat</div>
         </q-toolbar-title>
 
         <q-btn flat>
           <q-icon :avatar="Receiver.Avator"/>
         </q-btn>
         <q-btn flat>
-          <q-icon name="timer">
-            <q-tooltip>Pending Msgs</q-tooltip>
-          </q-icon>
+            <q-icon name="add_alarm">
+            </q-icon>
         </q-btn>
     </q-toolbar>
 
-    <chat-panel :Sender="Sender" :Receiver="Receiver"></chat-panel>
+    <chat-panel :Sender="Sender" :Receiver="Receiver" :MsgTitle="MsgTitle"></chat-panel>
 
     <div slot="left">
         <q-list no-border link inset-delimiter>
@@ -106,7 +105,7 @@ export default {
             Sender:'',
         }
     },
-    props: ['Receiver'],
+    props: ['Receiver','MsgTitle'],
     methods: {
       editProfile(){
         Toast.create("Go to edit profile page/action");

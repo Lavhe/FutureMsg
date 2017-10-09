@@ -1,15 +1,20 @@
 var mongoose = require('mongoose');
 
 var ChatListSchema = mongoose.Schema({
-    SenderID:String,
+    Sender:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
     Receiver:{
-      Name:String,
-      Avatar:String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
     },
-    LastMsg:{
-      Msg:String,
-      PostedDateTime:Date
-    },
+    Chat:[
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Msg'
+      }
+    ],
     Read:Boolean
 });
 

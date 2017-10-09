@@ -28,57 +28,87 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/getUserID',function(req,res,next){
-    var contact = req.body.number;
-    User.find({Numbers:contact}).limit(1).exec(function (err,users) {
-      if (err || !users){
-        if(!users){
-          res.json({"error":contact + " is not found."});
-        }else{
-          res.json({"error":err});
-        }
+  var contact = req.body.number;
+  User.find({Numbers:contact}).limit(1).exec(function (err,users) {
+    if (err || !users){
+      if(!users){
+        res.json({"error":contact + " is not found."});
       }else{
-        res.json({"userID":users[0]._id});
+        res.json({"error":err});
+      }
+    }else{
+      res.json({"userID":users[0]._id});
+    }
+  });
+});
+
+router.get('/sendMsg',function(){
+  var msgTitle = req.body.msgTitle;
+  var msg = req.body.msg;
+  var dueDate = req.body.dueDate;
+
+  var senderID = req.cookies.userID;
+  var receiverID = req.body.receiverID;
+
+  User.find({
+    "_id" :{
+      $in : [senderID,receiverID]
+    }}).limit(2).exec(function (err, users) {
+
+      if (err || users.length != 2){
+        if(err) res.json({"error":err});
+        else res.json({"error":"The Receiver can not be found."});
+      }else{
+
+        var answer = new Msg({
+          Sender: senderID,
+          Receiver: receiverID,
+          Title:msgTitle,
+          Msg: msg,
+          MsgType:0,
+          SentDateTime: Date.now(),
+          ReadDateTime:null,
+          DueDateTime:dueDate,
+          DeliveryStatus: "sent",
+          ReadStatus: "delivered"
+        });
+
+        answer.save(function(err) {
+          if (err){
+            res.json({"error":err});
+          }else{
+            Msg.find({}).exec(function (err, msgs) {
+              if (err){
+                res.json({"error":"Cant find MSGS of DB"});
+              }else{
+                res.json({"Answer":"Msg sent!"});
+              }
+            });
+          }
+        });
+
       }
     });
-});
-
-router.get('/addChats',function(req,res,next){
-  console.warn("We are in");
-  var _chat = new Chat({
-    SenderID:"yutytzsdzfxyyguio",
-    Receiver:{
-      Name:"The best"
-    },
-    LastMsg:{
-      Msg:"This is a test message",
-      PostedDateTime:Date.now()
-    },
-    Read:true
   });
-
-  _chat.save(function(err){
-    if (err){
-      res.json({"error":err});
-    }else{
-      res.json({"answer":"Added the chatList"});
-    }
-  });
-});
 
 router.post('/getChats',function(req,res,next){
-  //var senderID = req.body.senderID;
-  Chat.find({}).exec(function (err, chats) {
-    if (err){
-      res.json({"error":"Cant find chats of DB"});
-    }else{
-      res.json(chats);
-    }
-  });
+  var senderID = req.cookies.userID;
+  console.log(senderID);
+  Msg.find({ Sender : senderID })
+      .populate('Sender')
+      .populate('Receiver')
+      .exec(function (err, chats) {
+        if (err){
+          res.json({"error":"Cant find chats of DB"});
+        }else{
+          res.json(chats);
+        }
+    });
 });
 
 router.post('/sendText',function(req,res,next){
   var msg = req.body.msg;
-  var senderID = req.body.senderID;
+  var senderID = req.cookies.userID;
   var receiverID = req.body.receiverID;
 
   User.find({
