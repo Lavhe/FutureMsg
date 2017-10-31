@@ -1,19 +1,37 @@
-# Quasar App
+# FutureMsg
 
-> A Quasar project
+> Send msgs to the future
 
 ## Build Setup
 
 ``` bash
-# install dependencies
+# build for first time use
+
+# Install dependencies of app
 $ npm install
 
-# serve with hot reload at localhost:8080
-$ quasar dev
+# Change to server directory
+$ cd server
 
-# build for production with minification
-$ quasar build
+# install dependencies of server
+$ npm install
 
-# lint code
-$ quasar lint
+# Go back to App
+$ cd ..
+
+## Start up the system
+
+# N.B Make sure you open three instances of the terminal and run each command on a different one.
+
+# Start MONGODB
+$ npm run mongo
+
+# Start the server
+$ npm run server
+
+# Start the app
+$ npm run dev
+
 ```
+
+This supports hot reload for both the Server and App
