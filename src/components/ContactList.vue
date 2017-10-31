@@ -7,6 +7,11 @@
 
 <div>
   <q-list highlight separator>
+    <!-- TODO : create a new window or get the native ADD contact functionality -->
+    <q-item class="bg-light text-bold hoverable waves-effect" role="button" slot="title">
+      <q-item-side icon="person_add" />
+      <q-item-main label="Add contact" sublabel="Create a new contact" />
+    </q-item>
       <q-list-header class="center text-center">Contacts</q-list-header>
       <q-item v-for="contact in contacts" slot="title" icon="view_quilt" :to="{name:'chat',params:{Receiver:contact}}">
           <q-item-side :avatar="contact.Avatar" />
